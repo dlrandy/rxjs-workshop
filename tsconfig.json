@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": false,
+      "moduleResolution": "node",
+//      "types" : [ "node" ],
+        "sourceMap": false,
+        "outDir": "./dist"/*,
+      "typeRoots": [ "node_modules/@types/" ],
+      "types": [ "jquery", "react", "react-dom", ... your other types ,or  "rx/rx.lite.d.ts"],*/
+    },
+    "exclude": ["node_modules",
+                "dist",
+                "lib"
+    ]
+}
+
+//https://stackoverflow.com/questions/38444279/how-should-i-use-types-with-typescript-2#new-answer
+//https://github.com/Microsoft/TypeScript/issues/9725#issuecomment-233469422
