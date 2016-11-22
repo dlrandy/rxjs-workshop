@@ -1,5 +1,13 @@
 "use strict";
-require('rxjs/add/observable/interval');
+// import first_examples from './manual/some-examples'
+// console.log(first_examples)
+//
+//
+//
+//
+//
+//
+// import 'rxjs/add/observable/interval'
 // Observable.interval(200)
 // .subscribe(x => console.log(x))
 // import convert2Observable from './tutorial/convert-to-observable'
@@ -12,5 +20,7 @@ require('rxjs/add/observable/interval');
 // console.log(produce_value)
 // import createApplication from './tutorial/create-application'
 // console.log(createApplication)
-var state_store_1 = require('./tutorial/state-store');
-console.log(state_store_1.default);
+// import state_store from './tutorial/state-store'
+// console.log(state_store)
+var intro_1 = require('./course/intro');
+console.log(intro_1.default);

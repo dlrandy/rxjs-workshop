@@ -20,8 +20,18 @@
                 "defaultExtension": "js"
             }
         },
+//        paths: {
+//            "jquery": 'node_modules/dist/jquery.min.js'
+//        },
+        meta: {
+            'jquery': {
+                format: 'global',
+                exports: 'jQuery'
+            },
+        },
         map: {
             "rxjs": "node_modules/rxjs",
+            "jquery": 'node_modules/jquery/dist/jquery.min.js',
             "whatwg-fetch": "node_modules/whatwg-fetch/fetch.js"
         }
     })
@@ -33,5 +43,27 @@
 <button id="decrease">fromEvent click-</button>
 <input type="text" id="input" value="" />
 <div id="hello"></div>
+
+<div class="container" >
+    <h1>recommand person you may fellow</h1>
+    <a class="refresh" href="#">refresh</a>
+    <ul id="flowers" class="suggestions">
+        <li class="suggestion1">
+            <img>
+            <a href="#" target="_blank" class="username"></a>
+            <a href="#" class="close close1">X</a>
+        </li>
+        <li class="suggestion2">
+            <img>
+            <a href="#" target="_blank" class="username"></a>
+            <a href="#" class="close close2">X</a>
+        </li>
+        <li class="suggestion3">
+            <img>
+            <a href="#" target="_blank" class="username"></a>
+            <a href="#" class="close close3">X</a>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

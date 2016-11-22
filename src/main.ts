@@ -2,7 +2,17 @@
  * Created by Administrator on 2016/11/9.
  */
 import {Observable} from 'rxjs/Observable'
-import 'rxjs/add/observable/interval'
+
+// import first_examples from './manual/some-examples'
+// console.log(first_examples)
+//
+//
+//
+//
+//
+//
+
+// import 'rxjs/add/observable/interval'
 // Observable.interval(200)
 // .subscribe(x => console.log(x))
 // import convert2Observable from './tutorial/convert-to-observable'
@@ -20,8 +30,9 @@ import 'rxjs/add/observable/interval'
 // import createApplication from './tutorial/create-application'
 // console.log(createApplication)
 
-import state_store from './tutorial/state-store'
+// import state_store from './tutorial/state-store'
+// console.log(state_store)
+import state_store from './course/intro'
 console.log(state_store)
-
 
 
