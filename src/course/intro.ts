@@ -103,18 +103,41 @@ var refershStream = refreshClickStream.map(
     ev => 'http://api.github.com/users?since='+Math.floor(Math.random()*500))
 
 // refreshClickStream.subscribe()
+/*
+*
+*
+* -----u-----------u------------>
+* startWith(N)
+* --N--u-u--u--r---r---u-------------->
+*refershStream.map((ev) => null) merge
+* --N--u-u--u--N---N---u--D----D-------->
+* */
 var responseStream = requestStream.merge(refershStream).flatMap(requestUrl =>
-    Rx.Observable.fromPromise(<any>jQuery.getJSON(requestUrl).promise()));
-function createSuggestion(responseStream) {
+    Rx.Observable
+        .fromPromise(<any>jQuery.getJSON(requestUrl).promise()))
+        .share();//shareReplay
+function getRandomUser(listUser){
+    return listUser[Math.floor(Math.random()*listUser.length)]
+}
+function createSuggestion(responseStream, closeStream) {
     return responseStream.map(
-        listUser => listUser[Math.floor(Math.random()*listUser.length)]
+        getRandomUser
     )
     .startWith(null)
         .merge(refershStream.map((ev) => null))
+        .merge(closeStream.withLatestFrom(responseStream, (x, R) => getRandomUser(R)))
 }
-var suggestionStream1 = createSuggestion(responseStream)
-var suggestionStream2 = createSuggestion(responseStream)
-var suggestionStream3 = createSuggestion(responseStream)
+var closeBtn1 = document.querySelector('.close1')
+var closeBtn2 = document.querySelector('.close2')
+var closeBtn3 = document.querySelector('.close3')
+
+var close1Stream = Rx.Observable.fromEvent(closeBtn1, 'click')
+var close2Stream = Rx.Observable.fromEvent(closeBtn2, 'click')
+var close3Stream = Rx.Observable.fromEvent(closeBtn3, 'click')
+
+var suggestionStream1 = createSuggestion(responseStream, close1Stream)
+var suggestionStream2 = createSuggestion(responseStream, close2Stream)
+var suggestionStream3 = createSuggestion(responseStream, close3Stream)
 
 function renderSuggestion(userData, selector){
     var targetElement = document.querySelector(selector)
@@ -135,10 +158,6 @@ function renderSuggestion(userData, selector){
 suggestionStream1.subscribe(x=>renderSuggestion(x, '.suggestion1'))
 suggestionStream2.subscribe(x=>renderSuggestion(x, '.suggestion2'))
 suggestionStream3.subscribe(x=>renderSuggestion(x, '.suggestion3'))
-
-
-
-
 
 
 

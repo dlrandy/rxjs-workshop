@@ -86,17 +86,38 @@ var requestStream = Rx.Observable.of('http://api.github.com/users');
 var refreshClickStream = Rx.Observable.fromEvent(document.querySelector('.refresh'), 'click');
 var refershStream = refreshClickStream.map(function (ev) { return 'http://api.github.com/users?since=' + Math.floor(Math.random() * 500); });
 // refreshClickStream.subscribe()
+/*
+*
+*
+* -----u-----------u------------>
+* startWith(N)
+* --N--u-u--u--r---r---u-------------->
+*refershStream.map((ev) => null) merge
+* --N--u-u--u--N---N---u--D----D-------->
+* */
 var responseStream = requestStream.merge(refershStream).flatMap(function (requestUrl) {
-    return Rx.Observable.fromPromise(jQuery.getJSON(requestUrl).promise());
-});
-function createSuggestion(responseStream) {
-    return responseStream.map(function (listUser) { return listUser[Math.floor(Math.random() * listUser.length)]; })
-        .startWith(null)
-        .merge(refershStream.map(function (ev) { return null; }));
+    return Rx.Observable
+        .fromPromise(jQuery.getJSON(requestUrl).promise());
+})
+    .share(); //shareReplay
+function getRandomUser(listUser) {
+    return listUser[Math.floor(Math.random() * listUser.length)];
 }
-var suggestionStream1 = createSuggestion(responseStream);
-var suggestionStream2 = createSuggestion(responseStream);
-var suggestionStream3 = createSuggestion(responseStream);
+function createSuggestion(responseStream, closeStream) {
+    return responseStream.map(getRandomUser)
+        .startWith(null)
+        .merge(refershStream.map(function (ev) { return null; }))
+        .merge(closeStream.withLatestFrom(responseStream, function (x, R) { return getRandomUser(R); }));
+}
+var closeBtn1 = document.querySelector('.close1');
+var closeBtn2 = document.querySelector('.close2');
+var closeBtn3 = document.querySelector('.close3');
+var close1Stream = Rx.Observable.fromEvent(closeBtn1, 'click');
+var close2Stream = Rx.Observable.fromEvent(closeBtn2, 'click');
+var close3Stream = Rx.Observable.fromEvent(closeBtn3, 'click');
+var suggestionStream1 = createSuggestion(responseStream, close1Stream);
+var suggestionStream2 = createSuggestion(responseStream, close2Stream);
+var suggestionStream3 = createSuggestion(responseStream, close3Stream);
 function renderSuggestion(userData, selector) {
     var targetElement = document.querySelector(selector);
     if (userData == null) {
