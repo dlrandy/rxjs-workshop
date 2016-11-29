@@ -32,7 +32,10 @@ import {Observable} from 'rxjs/Observable'
 
 // import state_store from './tutorial/state-store'
 // console.log(state_store)
-import state_store from './course/intro'
-console.log(state_store)
+// import state_store from './course/intro'
+// console.log(state_store)
 
+
+import state_store from './stepbystep/10'
+console.log(state_store)
 

@@ -22,5 +22,7 @@
 // console.log(createApplication)
 // import state_store from './tutorial/state-store'
 // console.log(state_store)
-var intro_1 = require('./course/intro');
-console.log(intro_1.default);
+// import state_store from './course/intro'
+// console.log(state_store)
+var _10_1 = require('./stepbystep/10');
+console.log(_10_1.default);
